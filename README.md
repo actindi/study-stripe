@@ -1,24 +1,27 @@
-# README
+# Rails app to study Stripe
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[Stripe](https://stripe.com/jp)の調査のためのRailsアプリ。
 
-Things you may want to cover:
+次のことができる。
 
-* Ruby version
+- 決済（/charges/new）
+- 決済一覧の表示（/charges）
+- 決済の払い戻し
 
-* System dependencies
+## 立ち上げ方
 
-* Configuration
+Stripeの`PUBLISHABLE_KEY`と`SECRET_KEY`を用意してください。<br>
+Railsの起動時に環境変数で`PUBLISHABLE_KEY`と`SECRET_KEY`を与えてください。
 
-* Database creation
+次の例では直接変数を指定していますが、[direnv](https://github.com/direnv/direnv)などを使うと便利だと思います。
 
-* Database initialization
+```bash
+$ git clone https://github.com/morishita-ai/study-stripe.git
+$ cd study-stripe
+$ bundle install
+$ PUBLISHABLE_KEY=XXXXX SECRET_KEY=XXXXX bundle exec rails c
+```
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-
-* ...
+立ち上がったら https://localhost:3000/charges/new にアクセスしてください。
