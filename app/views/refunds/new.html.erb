@@ -1,0 +1,13 @@
+<h1>払い戻しますか？</h1>
+<%= form_tag refunds_path do %>
+  <%= hidden_field_tag :charge_id, @charge.id %>
+  <button type="submit">払い戻す</button>
+<% end %>
+<p>
+<pre>
+  <code>
+  <%= @charge %>
+  </code>
+</pre>
+</p>
+
