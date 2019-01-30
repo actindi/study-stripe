@@ -1,11 +1,11 @@
-<table>
+<table class="charges">
   <thead>
   <tr>
     <td>支払いID</td>
     <td>決済時刻</td>
-    <td>金額</td>
-    <td>全額返金</td>
-    <td>部分返金</td>
+    <td>決済時金額</td>
+    <td>残高</td>
+    <td>払い戻し</td>
     <td></td>
     <td></td>
   </tr>
@@ -14,12 +14,16 @@
     <tbody>
     <tr>
       <td><%= charge.id %></td>
-      <td><%= Time.at(charge.created) %></td>
+      <td><%= Time.at(charge.created).to_s %></td>
       <td><%= charge.amount %> <%= charge.currency %></td>
-      <td><%= charge.refunded %></td>
-      <td><%= charge.refunds.data.length %> </td>
+      <td><%= charge.amount - charge.amount_refunded %> <%= charge.currency %></td>
+      <% if charge.refunded? %>
+        <td>全額返金済</td>
+      <% else %>
+        <td><%= '一部返金済' if charge.refunds.data.length > 0 %></td>
+      <% end %>
       <td><%= link_to '領収書', charge.receipt_url, target: :blank %></td>
-      <td><%= link_to '払戻し', new_refund_path(charge_id: charge.id), target: :blank %></td>
+      <td><%= link_to('払戻し', new_refund_path(charge_id: charge.id), target: :blank) unless charge.refunded? %></td>
     </tr>
     </tbody>
   <% end %>
