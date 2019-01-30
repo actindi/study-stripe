@@ -1,0 +1,24 @@
+<table>
+  <thead>
+  <tr>
+    <td>支払いID</td>
+    <td>決済時刻</td>
+    <td>金額</td>
+    <td>全額返金</td>
+    <td>部分返金</td>
+    <td></td>
+  </tr>
+  </thead>
+  <% @charges.each do |charge| %>
+    <tbody>
+    <tr>
+      <td><%= charge.id %></td>
+      <td><%= Time.at(charge.created) %></td>
+      <td><%= charge.amount %> <%= charge.currency %></td>
+      <td><%= charge.refunded %></td>
+      <td><%= charge.refunds.data.length %> </td>
+      <td><%= link_to '領収書', charge.receipt_url, target: :blank %></td>
+    </tr>
+    </tbody>
+  <% end %>
+</table>

@@ -1,4 +1,9 @@
 class ChargesController < ApplicationController
+
+  def index
+    @charges = Stripe::Charge.list(limit: 10)
+  end
+
   def new
   end
 
