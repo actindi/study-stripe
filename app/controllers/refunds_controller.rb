@@ -8,8 +8,10 @@ class RefundsController < ApplicationController
 
   def create
     charge_id = params[:charge_id]
+    refund_amount = params[:refund_amount]
     @refund = Stripe::Refund.create(
-      charge: charge_id
+      charge: charge_id,
+      amount: refund_amount
     )
   end
 end
