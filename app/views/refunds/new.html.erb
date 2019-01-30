@@ -10,7 +10,7 @@
 <%= form_tag refunds_path do %>
   <%= hidden_field_tag :charge_id, @charge.id %>
   <% balance = @charge.amount - @charge.amount_refunded %>
-  <%= number_field_tag :refund_amount, balance, min: 10, max: balance, step: 10 %>
+  <%= number_field_tag :refund_amount, balance, min: [balance, 10].min, max: balance, step: 10 %>
   <button type="submit">払い戻す</button>
 <% end %>
 <p>
