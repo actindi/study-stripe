@@ -13,14 +13,14 @@ class ChargesController < ApplicationController
 
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
-      :source => params[:stripeToken]
+      :source => params[:stripeToken],
     )
 
     charge = Stripe::Charge.create(
       :customer => customer.id,
       :amount => @amount,
       :description => 'Rails Stripe ご利用料金',
-      :currency => 'jpy'
+      :currency => 'jpy',
     )
 
   rescue Stripe::CardError => e
