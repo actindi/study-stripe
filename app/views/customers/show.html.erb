@@ -1,0 +1,43 @@
+<h1>Customer</h1>
+<table>
+  <tr>
+    <td>ID</td>
+    <td><%= @customer.id %></td>
+  </tr>
+  <tr>
+    <td>E-mail</td>
+    <td><%= @customer.email %></td>
+  </tr>
+  <tr>
+    <td>デフォルト決済手段</td>
+    <td><%= @customer.default_source %></td>
+  </tr>
+  <tr>
+    <td>登録決済手段</td>
+    <td><%= @customer.sources.data.length %></td>
+  </tr>
+</table>
+<hr>
+<table class="charges">
+  <caption>決済手段</caption>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>ブランド</td>
+    <td>カード番号の最後4桁</td>
+    <td>有効期限</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @customer.sources.each do |source| %>
+    <tr>
+      <td><%= source.id %></td>
+      <td><%= source.brand %></td>
+      <td><%= source.last4 %></td>
+      <td><%= source.exp_month %>/<%= source.exp_year %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+

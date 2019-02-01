@@ -1,0 +1,18 @@
+<table class="charges">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>E-mail</td>
+    <td>登録決済手段数</td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @customers.each do |customer| %>
+    <tr>
+      <td><%= link_to customer.id, customer_path(customer.id) %></td>
+      <td><%= customer.email %></td>
+      <td><%= customer.sources.count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
