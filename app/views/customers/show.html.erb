@@ -36,6 +36,7 @@
       <td><%= source.brand %></td>
       <td><%= source.last4 %></td>
       <td><%= source.exp_month %>/<%= source.exp_year %></td>
+      <td><%= link_to '削除', customer_remove_card_path(@customer.id, card_id: source.id), method: :post %></td>
     </tr>
   <% end %>
   </tbody>

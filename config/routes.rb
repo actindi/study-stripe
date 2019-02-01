@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :refunds
   resources :customers do
     post :add_card
+    post :remove_card
   end
 end
