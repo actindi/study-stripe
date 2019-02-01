@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   #
   resources :charges
   resources :refunds
-  resources :customers
+  resources :customers do
+    post :add_card
+  end
 end
