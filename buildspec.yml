@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - ECR_IMAGE_TAG=$(git tag|head -n 1)
+      - ECR_IMAGE_TAG='latest'
       - docker build --no-cache -t $ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG .
       - echo docker tag $ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG
       - docker tag $ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG
