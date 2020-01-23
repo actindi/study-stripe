@@ -1,23 +1,41 @@
 FROM ruby:2.6.5-alpine3.11
 
-RUN \
-apk add --no-cache --virtual build-dependencies --update \
-    build-base \
-    linux-headers \
-    tzdata
+ENV ROOT="/myapp"
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Tokyo
 
-ENV APP_ROOT /app
+WORKDIR ${ROOT}
 
-RUN mkdir ${APP_ROOT}
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+        gcc \
+        g++ \
+        libc-dev \
+        libxml2-dev \
+        linux-headers \
+        make \
+        nodejs \
+        postgresql \
+        postgresql-dev \
+        tzdata \
+        sqlite-dev \
+        yarn && \
+    apk add --no-cache --virtual build-packages \
+        build-base \
+        curl-dev
 
-WORKDIR ${APP_ROOT}
+COPY Gemfile ${ROOT}
+COPY Gemfile.lock ${ROOT}
 
-ADD ./app/Gemfile Gemfile
-ADD ./app/Gemfile.lock Gemfile.lock
+RUN bundle install
+RUN apk del build-packages
 
-RUN \
-bundle install
+COPY . ${ROOT}
 
-ADD app ${APP_ROOT}
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
 
-ENTRYPOINT ["/bin/sh", "-c","bundle exec rails s" ]
+CMD ["rails", "server", "-b", "0.0.0.0"]
