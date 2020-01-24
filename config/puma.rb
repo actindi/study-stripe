@@ -33,29 +33,10 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-if Rails.env.development?
-    key_file = Rails.root.join("config", "certs", "localhost.key")
-    cert_file = Rails.root.join("config", "certs", "localhost.cert")
-
-    unless key_file.exist?
-      root_key = OpenSSL::PKey::RSA.new(2048)
-      key_file.write(root_key)
-
-      root_cert = OpenSSL::X509::Certificate.new.tap do |root_ca|
-        root_ca.version = 2
-        root_ca.serial = 0x0
-        root_ca.subject = OpenSSL::X509::Name.parse
-        root_ca.issuer = root_ca.subject
-        root_ca.public_key = root_key.public_key
-        root_ca.not_before = Time.now
-        root_ca.not_after = root_ca.not_before + 2 * 365 * 24 * 60 * 60
-        root_ca.sign(root_key, OpenSSL::Digest::SHA256.new)
-      end
-      cert_file.write(root_cert)
-    end
-
-    ssl_bind "0.0.0.0", "3000", {
-      key: key_file.to_path,
-      cert: cert_file.to_path
+if "development" == ENV.fetch("RAILS_ENV") { "development" }
+    ssl_bind '0.0.0.0', '443', {
+        key: "/myapp/localhost-key.pem",
+        cert: "/myapp/localhost.pem",
+        verify_mode: "none"
     }
 end
