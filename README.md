@@ -18,18 +18,8 @@ HTMLソースを見れば分かる形で実装しているが、それらはプ�
 
 ## 立ち上げ方
 
-Stripeの`PUBLISHABLE_KEY`と`SECRET_KEY`を用意してください。<br>
-Railsの起動時に環境変数で`PUBLISHABLE_KEY`と`SECRET_KEY`を与えてください。
+Docker/Docker Compose/Kubernetesでの起動を想定しています。
+Stripeの`PUBLISHABLE_KEY`と`SECRET_KEY`を用意してください。
+Containerの起動時に環境変数で`PUBLISHABLE_KEY`と`SECRET_KEY`を与えてください。
 
-次の例では直接変数を指定していますが、[direnv](https://github.com/direnv/direnv)などを使うと便利だと思います。
-
-```bash
-$ git clone https://github.com/morishita-ai/study-stripe.git
-$ cd study-stripe
-$ bundle install
-$ PUBLISHABLE_KEY=XXXXX SECRET_KEY=XXXXX bundle exec rails c
-```
-
-
-
-立ち上がったら https://localhost:3000/charges/new にアクセスしてください。
+立ち上がったら https://localhost/charges/new にアクセスしてください。
