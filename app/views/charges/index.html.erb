@@ -27,7 +27,7 @@
         <td><%= '一部返金済' if charge.refunds.data.length > 0 %></td>
       <% end %>
       <td><%= link_to '領収書', charge.receipt_url, target: :blank if charge.paid? %></td>
-      <td><%= link_to('払戻し', new_refund_path(charge_id: charge.id), target: :blank) unless charge.refunded? %></td>
+      <td><%= link_to('払戻し', new_refund_path(charge_id: charge.id), target: :blank) if charge.paid? && !charge.refunded? %></td>
     </tr>
     </tbody>
   <% end %>
