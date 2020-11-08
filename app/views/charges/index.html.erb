@@ -2,6 +2,7 @@
   <thead>
   <tr>
     <td>支払いID</td>
+    <td>ステータス</td>
     <td>決済時刻</td>
     <td>決済時金額</td>
     <td>残高</td>
@@ -14,6 +15,9 @@
     <tbody>
     <tr>
       <td><%= charge.id %></td>
+      <td><span data-with-tooltip="<%=charge.failure_message.present?%>"><%= charge.status %>
+          <span class="message"><%= charge.failure_message %></span>
+      </span></td>
       <td><%= Time.at(charge.created).to_s %></td>
       <td><%= charge.amount %> <%= charge.currency %></td>
       <td><%= charge.amount - charge.amount_refunded %> <%= charge.currency %></td>
@@ -22,7 +26,7 @@
       <% else %>
         <td><%= '一部返金済' if charge.refunds.data.length > 0 %></td>
       <% end %>
-      <td><%= link_to '領収書', charge.receipt_url, target: :blank %></td>
+      <td><%= link_to '領収書', charge.receipt_url, target: :blank if charge.paid? %></td>
       <td><%= link_to('払戻し', new_refund_path(charge_id: charge.id), target: :blank) unless charge.refunded? %></td>
     </tr>
     </tbody>
