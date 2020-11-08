@@ -1,6 +1,6 @@
 # Rails app to study Stripe
 
-[Stripe](https://stripe.com/jp)の調査のためのRailsアプリ。
+[Stripe](https://stripe.com/jp)の調査のための Rails アプリ。
 
 次のことができる。
 
@@ -10,16 +10,18 @@
 - カスタマ一覧/詳細の表示(/customers)
 - カスタマへのカード番号に追加/削除
 
-ユーザ認証もなく決済やカスタマーの一覧を表示したりしている。
-また、CustomerやSource、ChargeなどのStripeの永続的リソースのIDをURLの一部に使ったり
-HTMLソースを見れば分かる形で実装しているが、それらはプロダクションレベルではNGだと思う。
+また、本アプリケーションの実装に見られる以下の項目はプロダクションレベルでは NG だと思うので真似しないように。
 
-このアプリケーションはあくまで、StripeのAPIの使い方を確認するための習作なのでそういうことでよろしく。
+- ユーザ認証もなく決済やカスタマーの一覧を表示したりしている。
+- Customer や Source、Charge などの Stripe の永続的リソースの ID を URL の一部に利用している
+- Customer や Source、Charge などの Stripe の永続的リソースの ID が HTML ソースに露出している
+
+このアプリケーションはあくまで、Stripe の API の使い方を確認するための習作なのでそういうことでよろしく。
 
 ## 立ち上げ方
 
-Stripeの`PUBLISHABLE_KEY`と`SECRET_KEY`を用意してください。<br>
-Railsの起動時に環境変数で`PUBLISHABLE_KEY`と`SECRET_KEY`を与えてください。
+Stripe の `PUBLISHABLE_KEY` と `SECRET_KEY` を用意してください。<br>
+Rails の起動時に環境変数で `PUBLISHABLE_KEY` と `SECRET_KEY`を与えてください。
 
 次の例では直接変数を指定していますが、[direnv](https://github.com/direnv/direnv)などを使うと便利だと思います。
 
@@ -32,4 +34,4 @@ $ PUBLISHABLE_KEY=XXXXX SECRET_KEY=XXXXX bundle exec rails c
 
 
 
-立ち上がったら https://localhost:3000/charges/new にアクセスしてください。
+立ち上がったら https://localhost:3000にアクセスしてください。
