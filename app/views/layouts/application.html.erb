@@ -2,15 +2,27 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>SutdyStripe</title>
+    <title>Sutdy Stripe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+    <div id="left">
+      <h2><%=link_to 'Study Stripe', root_path %><h2>
+      <ul>
+        <li><%=link_to '支払い一覧', charges_path %></li>
+        <li><%=link_to '新規支払い', new_charge_path %></li>
+      </ul>
+      <hr>
+      <ul>
+        <li><%=link_to '顧客一覧', customers_path %></li>
+      </ul>
+    </div>
+    <div id="main">
+      <%= yield %>
+    </div>
   </body>
 </html>
