@@ -1,0 +1,33 @@
+<h1>Subscription</h1>
+
+<table>
+  <tr><td>ID</td><td><%=@subscription.id%></td></tr>
+  <tr><td>customer</td><td><%=@subscription.customer%></td></tr>
+  <tr><td>status</td><td><%=@subscription.status%></td></tr>
+  <tr><td>collection_method</td><td><%=@subscription.collection_method%></td></tr>
+  <tr><td>start_date</td><td><%=Time.at(@subscription.start_date)%></td></tr>
+  <tr><td>created</td><td><%=Time.at(@subscription.created)%></td></tr>
+  <tr><td>current_period_start</td><td><%=Time.at(@subscription.current_period_start)%></td></tr>
+  <tr><td>current_period_end</td><td><%=Time.at(@subscription.current_period_end)%></td></tr>
+  <tr><td>metadata</td><td><%=@subscription.metadata%></td></tr>
+</table>
+
+<h2>Subscription Items</h2>
+
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Price</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @subscription.items.each do |item| %>
+    <tr>
+      <td><%=item.id%></td>
+      <td><%=item.price.unit_amount%></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
