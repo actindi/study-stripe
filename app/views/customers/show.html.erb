@@ -43,6 +43,7 @@
 </table>
 
 <hr>
+<div class="StripeElement-frame">
 <%= form_tag customer_add_card_path(@customer.id), method: :post, id: 'payment-form' do %>
   <div class="form-row">
     <label for="card-element">
@@ -58,6 +59,7 @@
 
   <button>Submit Payment</button>
 <% end %>
+<div>
 
 <script src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript">
@@ -67,7 +69,6 @@
     var style = {
       base: {
         color: '#32325d',
-        lineHeight: '18px',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: 'antialiased',
         fontSize: '16px',
@@ -80,7 +81,7 @@
         iconColor: '#fa755a'
       }
     };
-    var card = elements.create('card', {style: style});
+    var card = elements.create('card', { style: style, hidePostalCode: true });
 
     card.mount('#card-element');
 
@@ -121,9 +122,6 @@
       // Submit the form
       form.submit();
     }
-
   })();
-
-
 </script>
 
