@@ -3,7 +3,7 @@
 <div class="StripeElement-frame">
   <div class="notifications">
     <% flash.each do |key, value| %>
-      <%=content_tag(:div, value, class: key) %>
+      <%=content_tag(:div, value, class: "flash-msg #{key}") %>
     <% end %>
   <div>
   <%= form_with url: subscriptions_path, id: 'subscription-form', local: true do |form| %>

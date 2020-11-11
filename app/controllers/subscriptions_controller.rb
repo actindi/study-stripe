@@ -2,7 +2,11 @@
 
 class SubscriptionsController < ApplicationController
   def index
-    @subscriptions = Stripe::Subscription.list(limit: 10, expand: ['data.customer'])
+    @subscriptions = Stripe::Subscription.list(
+      limit: 10,
+      status: 'all', # 指定しないと active な Subscription だけ取得する
+      expand: ['data.customer']
+    )
   end
 
   def show
@@ -41,13 +45,20 @@ class SubscriptionsController < ApplicationController
 
     Stripe::Subscription.create(
       customer: customer,
+      default_payment_method: customer.default_source, # 支払いに使うカードを指定する
       items: [
         { price: price_id }
       ]
     )
     redirect_to subscriptions_path
+  rescue => e
+    redirect_to new_subscription_path, alert: "ERROR: #{e.message}"
   end
 
   def destroy
+    subscription_id = params[:id]
+    Stripe::Subscription.delete(subscription_id)
+
+    redirect_to subscriptions_path, notice: "#{subscription_id}をキャンセルしました"
   end
 end
