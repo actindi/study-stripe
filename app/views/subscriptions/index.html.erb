@@ -3,7 +3,8 @@
   <thead>
     <tr>
       <td>ID</td>
-      <td>Customers</td>
+      <td>Customer</td>
+      <td>Product</td>
       <td>現在の購読期間の開始時刻</td>
       <td>現在の購読期間の終了時刻</td>
     </tr>
@@ -12,7 +13,8 @@
     <% @subscriptions.each do |subscription| %>
     <tr>
       <td><%= link_to subscription.id, subscription_path(subscription.id) %></td>
-      <td><%= subscription.customer %></td>
+      <td><%= subscription.customer.email %></td>
+      <td><%= subscription.items.first.price.product %></td>
       <td><%= Time.at(subscription.current_period_start) %></td>
       <td><%= Time.at(subscription.current_period_end) %></td>
       <td></td>
