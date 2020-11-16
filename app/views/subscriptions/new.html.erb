@@ -18,6 +18,15 @@
         </p>
       <% end %>
     </div>
+    <div>
+      <p>適用税率</p>
+      <% @taxs.each.with_index do |tax, index| %>
+        <p>
+        <%=form.radio_button :tax, tax.id, checked: index == 0 %>
+        <%=form.label "tax_#{tax.id}".downcase, "#{tax.display_name}[#{tax.percentage}%]" %>
+        </p>
+      <% end %>
+    </div>
     <div class="form-row">
       <label for="card-element">
         Credit or debit card

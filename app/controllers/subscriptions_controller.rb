@@ -15,6 +15,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
+    @taxs = Stripe::TaxRate.list(limit: 10)
     prices = Stripe::Price.list(
       limit: 10,
       active: true,
@@ -48,6 +49,9 @@ class SubscriptionsController < ApplicationController
       default_payment_method: customer.default_source, # 支払いに使うカードを指定する
       items: [
         { price: price_id }
+      ],
+      default_tax_rates: [
+        params[:tax]
       ]
     )
     redirect_to subscriptions_path
