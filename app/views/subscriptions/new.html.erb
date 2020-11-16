@@ -27,6 +27,15 @@
         </p>
       <% end %>
     </div>
+    <div>
+      <p>適用割引</p>
+      <% @coupons.each do |coupon| %>
+        <p>
+        <%=form.radio_button :coupon, coupon.id %>
+        <%=form.label "coupon_#{coupon.id}".downcase, "#{coupon.name}[#{coupon.percent_off}%OFF]" %>
+        </p>
+      <% end %>
+    </div>
     <div class="form-row">
       <label for="card-element">
         Credit or debit card

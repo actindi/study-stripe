@@ -16,6 +16,7 @@ class SubscriptionsController < ApplicationController
 
   def new
     @taxs = Stripe::TaxRate.list(limit: 10)
+    @coupons = Stripe::Coupon.list(limit: 10)
     prices = Stripe::Price.list(
       limit: 10,
       active: true,
@@ -23,6 +24,8 @@ class SubscriptionsController < ApplicationController
     )
     @products = {}
     prices.each do |price|
+      next unless price.product.active
+
       if @products[price.product].blank?
         @products[price.product] = [price]
       else
@@ -52,7 +55,8 @@ class SubscriptionsController < ApplicationController
       ],
       default_tax_rates: [
         params[:tax]
-      ]
+      ],
+      coupon: params[:coupon]
     )
     redirect_to subscriptions_path
   rescue => e
