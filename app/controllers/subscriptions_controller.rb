@@ -48,15 +48,16 @@ class SubscriptionsController < ApplicationController
     )
 
     Stripe::Subscription.create(
-      customer: customer,
-      default_payment_method: customer.default_source, # 支払いに使うカードを指定する
-      items: [
-        { price: price_id }
-      ],
-      default_tax_rates: [
-        params[:tax]
-      ],
-      coupon: params[:coupon]
+      { customer: customer,
+        default_payment_method: customer.default_source, # 支払いに使うカードを指定する
+        items: [
+          { price: price_id }
+        ],
+        default_tax_rates: [
+          params[:tax]
+        ],
+        coupon: params[:coupon] },
+      idempotency_key: Digest::MD5.hexdigest("#{customer.id}_#{Time.current.to_i}_#{params[:authenticity_token]}")
     )
     redirect_to subscriptions_path
   rescue => e
