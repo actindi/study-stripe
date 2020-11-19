@@ -7,6 +7,7 @@ class CustomersController < ApplicationController
   def show
     customer_id = params[:id]
     @customer = Stripe::Customer.retrieve(customer_id)
+    @subscriptions = Stripe::Subscription.list(customer: customer_id)
   end
 
   def add_card
