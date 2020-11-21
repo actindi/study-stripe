@@ -18,8 +18,8 @@
   </tr>
 </table>
 <hr>
+<h2>決済手段</h2>
 <table class="charges">
-  <caption>決済手段</caption>
   <thead>
   <tr>
     <td>ID</td>
@@ -43,6 +43,7 @@
 </table>
 
 <hr>
+<div class="StripeElement-frame">
 <%= form_tag customer_add_card_path(@customer.id), method: :post, id: 'payment-form' do %>
   <div class="form-row">
     <label for="card-element">
@@ -58,6 +59,37 @@
 
   <button>Submit Payment</button>
 <% end %>
+<div>
+
+<h2>Subscription</h2>
+<div>
+<table class="charges">
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Status</td>
+      <td>Product</td>
+      <td>Price</td>
+      <td>現在の購読期間の開始時刻</td>
+      <td>現在の購読期間の終了時刻</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @subscriptions.each do |subscription| %>
+    <tr>
+      <td><%= link_to subscription.id, subscription_path(subscription.id) %></td>
+      <td><%= subscription.status %></td>
+      <td><%= subscription.items.first.price.product %></td>
+      <td><%= subscription.items.first.price.id %></td>
+      <td><%= Time.at(subscription.current_period_start) %></td>
+      <td><%= Time.at(subscription.current_period_end) %></td>
+      <td><%=link_to('解約', subscription_path(subscription.id), method: :delete, ) if subscription.status == 'active' %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
 
 <script src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript">
@@ -67,7 +99,6 @@
     var style = {
       base: {
         color: '#32325d',
-        lineHeight: '18px',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: 'antialiased',
         fontSize: '16px',
@@ -80,7 +111,7 @@
         iconColor: '#fa755a'
       }
     };
-    var card = elements.create('card', {style: style});
+    var card = elements.create('card', { style: style, hidePostalCode: true });
 
     card.mount('#card-element');
 
@@ -121,9 +152,6 @@
       // Submit the form
       form.submit();
     }
-
   })();
-
-
 </script>
 

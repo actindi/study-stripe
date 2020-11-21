@@ -1,0 +1,117 @@
+<h1>Subscription 購入</h1>
+
+<div class="StripeElement-frame">
+  <div class="notifications">
+    <% flash.each do |key, value| %>
+      <%=content_tag(:div, value, class: "flash-msg #{key}") %>
+    <% end %>
+  <div>
+  <%= form_with url: subscriptions_path, id: 'subscription-form', local: true do |form| %>
+    <div>
+      <% @products.each do |product, prices| %>
+        <p>
+        <%=product.name%>
+        <% prices.each do |price| %>
+          <%=form.radio_button :price, price.id %>
+          <%=form.label "price_#{price.id}".downcase, "#{price.nickname}[#{price.unit_amount} #{price.currency}]" %>
+        <% end %>
+        </p>
+      <% end %>
+    </div>
+    <div>
+      <p>適用税率</p>
+      <% @taxs.each.with_index do |tax, index| %>
+        <p>
+        <%=form.radio_button :tax, tax.id, checked: index == 0 %>
+        <%=form.label "tax_#{tax.id}".downcase, "#{tax.display_name}[#{tax.percentage}%]" %>
+        </p>
+      <% end %>
+    </div>
+    <div>
+      <p>適用割引</p>
+      <% @coupons.each do |coupon| %>
+        <p>
+        <%=form.radio_button :coupon, coupon.id %>
+        <%=form.label "coupon_#{coupon.id}".downcase, "#{coupon.name}[#{coupon.percent_off}%OFF]" %>
+        </p>
+      <% end %>
+    </div>
+    <div class="form-row">
+      <label for="card-element">
+        Credit or debit card
+      </label>
+      <div id="card-element">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+
+      <!-- Used to display form errors. -->
+      <div id="card-errors" role="alert"></div>
+    </div>
+
+    <button>Submit Payment</button>
+  <% end %>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+(function () {
+  const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+  const elements = stripe.elements();
+  const style = {
+    base: {
+      color: '#32325d',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    },
+  };
+  const card = elements.create('card', { style: style, hidePostalCode: true });
+  card.mount('#card-element');
+
+  // Handle real-time validation errors from the card Element.
+  card.on('change', function(event) {
+    const displayError = document.querySelector('#card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  // Handle form submission.
+  document.querySelector('#subscription-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        const errorElement = document.querySelector('#card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  // Submit the form with the token ID.
+  function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    const form = document.querySelector('#subscription-form');
+    const hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+  }
+})();
+</script>

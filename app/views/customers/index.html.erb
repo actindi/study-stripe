@@ -4,6 +4,7 @@
     <td>ID</td>
     <td>E-mail</td>
     <td>登録決済手段数</td>
+    <td>サブスクリプション数</td>
   </tr>
   </thead>
   <tbody>
@@ -12,6 +13,7 @@
       <td><%= link_to customer.id, customer_path(customer.id) %></td>
       <td><%= customer.email %></td>
       <td><%= customer.sources.count %></td>
+      <td><%= customer.subscriptions.count %></td>
     </tr>
   <% end %>
   </tbody>

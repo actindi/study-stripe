@@ -2,23 +2,42 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Sutdy Stripe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application', defer: true %>
+    <%= yield :extra_head %>
   </head>
   <body>
     <div id="left">
-      <h2><%=link_to 'Study Stripe', root_path %><h2>
+      <h2><%=link_to 'Study Stripe', root_path %></h2>
       <ul>
         <li><%=link_to '支払い一覧', charges_path %></li>
         <li><%=link_to '新規支払い', new_charge_path %></li>
       </ul>
       <hr>
       <ul>
+        <li><%=link_to 'サブスクリプション一覧', subscriptions_path %></li>
+        <li><%=link_to 'サブスクリプション購入', new_subscription_path %></li>
+      </ul>
+      <hr>
+      <ul>
         <li><%=link_to '顧客一覧', customers_path %></li>
+      </ul>
+      <hr>
+      <ul>
+        <li><%=link_to 'Webhook', webhook_path, target: :_blank %></li>
+      </ul>
+      <hr>
+      <%=link_to 'Repository', 'https://github.com/morishita-ai/study-stripe', target: :_blank %>
+      <hr>
+      <p>Stripe DOCS</p>
+      <ul>
+        <li><%=link_to 'テストカード', 'https://stripe.com/docs/testing#cards', target: :_blank %></li>
+        <li><%=link_to 'Stripe CLI', 'https://stripe.com/docs/stripe-cli', target: :_blank %></li>
+        <li><%=link_to 'API Reference', 'https://stripe.com/docs/api', target: :_blank %></li>
       </ul>
     </div>
     <div id="main">
