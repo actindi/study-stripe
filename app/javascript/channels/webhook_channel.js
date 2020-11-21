@@ -32,6 +32,22 @@ function appendMessage(message) {
   const element = document.createElement('div');
   element.classList.add('message');
   element.innerHTML = `[${formatDate(new Date())}] ${message}`;
+  if (autoClose.checked) closeAllDetails();
+
+  webhookChannel.appendChild(element);
+}
+
+/**
+ * エラーメッセージを出力要素に追加する
+ *
+ * @param {Object} data エラー情報
+ */
+function appendError(data) {
+  const element = document.createElement('div');
+  element.classList.add('message');
+  element.innerHTML = `[${formatDate(new Date())}] <span class="error">ERROR [${data.error}] ${data.message}</span>`;
+  if (autoClose.checked) closeAllDetails();
+
   webhookChannel.appendChild(element);
 }
 
@@ -55,11 +71,11 @@ function appendEvent(event) {
   codeElm.innerText = JSON.stringify(event, null, 4);
   hljs.highlightBlock(codeElm); // code highlight by highlight.js
 
-  if (autoClose.checked) closeAllDetails();
-
   preElm.appendChild(codeElm);
   detailsElm.appendChild(preElm);
   element.appendChild(detailsElm);
+
+  if (autoClose.checked) closeAllDetails();
   webhookChannel.appendChild(element);
 }
 
@@ -83,6 +99,8 @@ consumer.subscriptions.create("WebhookChannel", {
       appendMessage(data);
     } else if (data.event) {
       appendEvent(data.event);
+    } else if (data.error) {
+      appendError(data);
     }
   }
 });

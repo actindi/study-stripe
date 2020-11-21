@@ -16,12 +16,18 @@ class WebhookController < ApplicationController
     head 200
   rescue JSON::ParserError => e
     # Invalid payload
-    puts e
+    puts e.full_message
+    broadcast_error(e)
     head 400
   rescue Stripe::SignatureVerificationError => e
     # Invalid signature
-    puts e
+    puts e.full_message
+    broadcast_error(e)
     head 400
+  rescue StandardError => e
+    puts e.full_message
+    broadcast_error(e)
+    head 500
   end
 
   def show; end
@@ -30,5 +36,9 @@ class WebhookController < ApplicationController
 
   def broadcast(event)
     ActionCable.server.broadcast(WebhookChannel::STREAM, event: event)
+  end
+
+  def broadcast_error(error)
+    ActionCable.server.broadcast(WebhookChannel::STREAM, error: error.class.name, message: error.message)
   end
 end
