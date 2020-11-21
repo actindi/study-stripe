@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -10,9 +12,7 @@ class WebhookController < ApplicationController
       sig_header,
       WEBHOOK_ENDPOINT_SECRET
     )
-
-    puts event.type
-
+    broadcast(event)
     head 200
   rescue JSON::ParserError => e
     # Invalid payload
@@ -25,4 +25,10 @@ class WebhookController < ApplicationController
   end
 
   def show; end
+
+  private
+
+  def broadcast(event)
+    ActionCable.server.broadcast('webhook', event_type: event.type)
+  end
 end

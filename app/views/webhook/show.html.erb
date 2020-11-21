@@ -1,2 +1,7 @@
+<% content_for :extra_head do%>
+  <%=action_cable_meta_tag%>
+  <%= javascript_pack_tag 'cable' %>
+<% end %>
+
 <h1>Webhook#show</h1>
 <p>Find me in app/views/webhook/show.html.erb</p>
