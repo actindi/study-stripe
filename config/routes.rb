@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   end
   resources :refunds
   resources :subscriptions, except: %i[edit update]
-  get 'webhook', to: 'webhook#index'
+  get 'webhook', to: 'webhook#show'
   post 'webhook', to: 'webhook#endpoint'
 end

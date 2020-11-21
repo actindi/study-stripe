@@ -24,7 +24,5 @@ class WebhookController < ApplicationController
     head 400
   end
 
-  def Index
-
-  end
+  def show; end
 end
