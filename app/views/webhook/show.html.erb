@@ -1,7 +1,17 @@
 <% content_for :extra_head do%>
-  <%=action_cable_meta_tag%>
-  <%= javascript_pack_tag 'cable' %>
+  <%= action_cable_meta_tag %>
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/agate.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" defaer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/json.min.js" defer></script>
+  <%= javascript_pack_tag 'cable', defer: true %>
 <% end %>
 
-<h1>Webhook#show</h1>
-<p>Find me in app/views/webhook/show.html.erb</p>
+<h1>Webhook</h1>
+<div>
+  <input type='checkbox' id='auto-close' checked>
+  <label for='auto-close'>Auto Close</label>
+  <button id='close-all-details'>Close All</button>
+</div>
+<hr>
+<div id="webhookChannel"></div>

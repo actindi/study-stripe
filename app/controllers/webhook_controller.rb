@@ -29,6 +29,6 @@ class WebhookController < ApplicationController
   private
 
   def broadcast(event)
-    ActionCable.server.broadcast('webhook', event_type: event.type)
+    ActionCable.server.broadcast(WebhookChannel::STREAM, event: event)
   end
 end
